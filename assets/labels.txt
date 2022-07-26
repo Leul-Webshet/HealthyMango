@@ -1,0 +1,4 @@
+0 Anthracnose
+1 Black_Soothy_Mold
+2 Healthy
+3 Non Mango

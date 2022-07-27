@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   final _pickImage = ImagePicker();
   File? imagePath;
   late List _result;
-  late String _confindnce;
+  // late String _confindnce;
 
   String _name = '';
   String _number = '';
@@ -49,12 +49,13 @@ class _HomeState extends State<Home> {
     }
   }
 
-  loadModel() async {
+  Future loadModel() async {
+    Tflite.close();
     var result = await Tflite.loadModel(
         model: 'assets/model_unquant.tflite', labels: 'assets/labels.txt');
   }
 
-  applyModel(File file) async {
+ Future applyModel(File file) async {
     var res = await Tflite.runModelOnImage(
         path: file.path,
         numResults: 2, //Change
@@ -68,7 +69,7 @@ class _HomeState extends State<Home> {
       // Code need to be understood
       String str = _result[0]["label"];
       _name = str.substring(2);
-      _confindnce = _result != null?(_result[0]['Confidence']*100.0.toString().substring(0,2)+'%'):"";
+      // _confindnce = _result != null?(_result[0]['Confidence']*100.0.toString().substring(0,2)+'%'):"";
     });
   }
 
@@ -86,11 +87,11 @@ class _HomeState extends State<Home> {
           child: imagePath == null
               ? Text('Select Image')
               : Column(
-                children: [
-                  Image.file(File(imagePath!.path)),
-                  Text('Status:$_name \n Confidence: $_confindnce'),
-                ],
-              ),
+                  children: [
+                    Image.file(File(imagePath!.path)),
+                    Text('Status:$_name'),
+                  ],
+                ),
         ),
         floatingActionButton:
             Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[

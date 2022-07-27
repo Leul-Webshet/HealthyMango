@@ -96,7 +96,14 @@ class _HomeState extends State<Home> {
               ? Text('Select Image')
               : Column(
                   children: [
-                    Image.file(File(_image!.path)),
+                    Container(
+                      height: 350,
+                      width: 350,
+                      child:Image.file(File(_image!.path)),
+                    ),
+                    SizedBox(height: 20,)
+                    ,
+
                     Text('${_output[0]}'),
                   ],
                 ),

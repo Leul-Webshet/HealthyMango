@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
 
   pickImage() async {
     // var photo = await picker.pickImage(source: ImageSource.camera);
-    final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
 
     //checking for error
     if (photo == null) return null;

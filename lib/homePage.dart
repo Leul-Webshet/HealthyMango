@@ -93,18 +93,40 @@ class _HomeState extends State<Home> {
         ),
         body: Container(
           child: _image == null
-              ? Text('Select Image')
+              ? Container(
+                  padding: EdgeInsets.all(12),
+                  child: Column(children: [
+                    Text(
+                      'Healthy Mango',
+                      style:
+                          TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                        'This App detectes the health status of mango. Take a picture of Mango leaf or choose From Gallery to see the status')
+                  ]),
+                )
               : Column(
                   children: [
                     Container(
                       height: 350,
                       width: 350,
-                      child:Image.file(File(_image!.path)),
+                      child: Image.file(File(_image!.path)),
                     ),
-                    SizedBox(height: 20,)
-                    ,
-
-                    Text('${_output[0]}'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    
+                    Text(
+                      '${_output[0]['label']}',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Text('${_output[0]['confidence']%100}')
                   ],
                 ),
         ),

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 
+import 'package:percent_indicator/percent_indicator.dart';
+
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
 
@@ -15,7 +17,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   //Modifed code
-  bool _loading = true;
   File? _image;
   late List _output;
   final picker = ImagePicker();
@@ -36,7 +37,6 @@ class _HomeState extends State<Home> {
 
     setState(() {
       _output = outcome!;
-      _loading = false;
     });
   }
 
@@ -47,7 +47,6 @@ class _HomeState extends State<Home> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     Tflite.close();
   }
@@ -83,6 +82,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    double temp = _output[0]['confidence']*100.toInt();
+    String con = temp.toStringAsFixed(2);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -109,6 +110,7 @@ class _HomeState extends State<Home> {
                   ]),
                 )
               : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       height: 350,
@@ -118,15 +120,28 @@ class _HomeState extends State<Home> {
                     SizedBox(
                       height: 20,
                     ),
-                    
+
                     Text(
                       '${_output[0]['label']}',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
+                    SizedBox(height: 12,),
+                    CircularPercentIndicator(
+                      radius: 60.0,
+                      
+                      animation: true,
+                      animationDuration: 1200,
+                      lineWidth: 15.0,
+                      progressColor: Color(0xFFFF8242),
+                      circularStrokeCap: CircularStrokeCap.butt,
+                      percent: _output[0]['confidence'],
+                      center: Text(con+' %'),
+                    ),
                     SizedBox(height: 15),
-                    Text('${_output[0]['confidence']%100}')
+                    // Text('${_output[0]['confidence']%100}')
                   ],
                 ),
         ),
